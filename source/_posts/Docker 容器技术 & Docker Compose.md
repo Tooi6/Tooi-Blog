@@ -33,7 +33,7 @@ tags:
 - **仓库（Repository）：**  
 
 > Docker 仓库是**集中存放镜像文件的场所**。镜像构建完成后，可以很容易的在当前宿主上运行，但是， 如果需要在其它服务器上使用这个镜像，我们就需要一个集中的存储、分发镜像的服务，Docker Registry (仓库注册服务器)就是这样的服务  
- 官方仓库：https://hub.docker.com/  
+ 官方仓库：https://hub.docker.com/search?q=&type=image   
  
 - **Docker引擎**  
 > Docker 引擎是一个包含以下主要组件的客户端服务器应用程序（CS架构）。  
@@ -79,6 +79,7 @@ docker run hello-world
 ```
 
 #### 配置镜像加速  
+> 下面是docker官方提供的，使用阿里云的更快：https://cr.console.aliyun.com/#/accelerator
 
 ```
 vim /etc/docker/daemon.json  # 没有则新建
@@ -88,6 +89,10 @@ vim /etc/docker/daemon.json  # 没有则新建
     "https://registry.docker-cn.com"
   ]
 }
+
+# 重启docker
+systemctl daemon-reload
+systemctl restart docker
 ```
 
 #### 基本操作  
@@ -169,7 +174,7 @@ Docker Compose 它允许用户通过一个单独的 **docker-compose.yml** 模�
 # GitHub地址：https://github.com/docker/compose
 
 # 下载，并安装
-curl -L https://github.com/docker/compose/releases/download/1.17.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 
 # 验证
@@ -218,4 +223,64 @@ services:
 volumes:
   mysql-data:
 ###
+
+# 启动
+docker-compose up -d
 ```
+
+### Docker 常用命令  
+
+```
+# 查看 Docker 版本
+docker version
+
+# 从 Dockerfile 文件构建镜像
+docker build -t image-name .
+
+# 运行 Docker 镜像
+docker run -d image-name
+
+# 查看Docker镜像
+docker images
+
+# 查看运行的容器
+docker ps
+docker ps -al # 查看所有容器  
+
+# 停止容器  
+docker stop conainer_id
+
+# 删除一个镜像  
+docker rmi iamge-name
+
+# 删除所有镜像
+docker rmi $(docker images -q)
+
+# 强制删除所有镜像
+docker rmi -r $(docker images -a)
+
+# 删除所有虚悬镜像
+docker rmi $(docker images -q -f dangling=true)
+
+# 删除所有容器
+docker rm $(docker ps -a -q)
+
+# 进入 Docker 容器
+docker exec -it container-id /bin/bash
+
+# 查看数据卷  
+docker volume ls
+
+# 删除指定数据卷
+docker volume rm [volume_name]
+
+# 删除所有未关联的数据卷
+docker volume rm $(docker volume ls -qf dangling=true)
+
+# 从主机复制文件到容器
+sudo docker cp host_path containerID:container_path
+
+# 从容器复制文件到主机
+sudo docker cp containerID:container_path host_path
+```
+

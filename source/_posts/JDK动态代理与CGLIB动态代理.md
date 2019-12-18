@@ -2,7 +2,7 @@
 title: JDK动态代理与CGLIB动态代理    
 date: 2019-12-17 10:36:55  
 tags:  
-- Swagger2  
+- 动态代理
 ---
 
 ### 代理模式

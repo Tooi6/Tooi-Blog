@@ -1,3 +1,13 @@
+---
+title: 线程安全问题 synchronized、ReentrantLock、volatile    
+date: 2019-12-18 22:05:30  
+tags:  
+- 多线程
+- synchronized
+- ReentrantLock
+- volatile
+---
+
 ### 概念
 #### 什么是是进程、线程？  
 > **进程：** 进程是可并发执行的程序在某个数据集合上的一次计算活动，也是**操作系统进行资源分配和调度的基本单位。**    
